@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Workspace Tasks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>Workspace Tasks</h1>
+            <p>Streamline your focus, eliminate the noise.</p>
+        </header>
+
+        <!-- Task Input Section -->
+        <form id="task-form" class="task-form">
+            <input 
+                type="text" 
+                id="task-input" 
+                placeholder="What is your next focus area?..." 
+                required 
+                autocomplete="off"
+            >
+            <button type="submit" id="add-btn">Add Task</button>
+        </form>
+
+        <!-- Filter Control Tabs -->
+        <div class="filter-tabs">
+            <button type="button" class="filter-btn active" data-filter="all">All Tasks</button>
+            <button type="button" class="filter-btn" data-filter="active">Active</button>
+            <button type="button" class="filter-btn" data-filter="all-completed">Completed</button>
+        </div>
+
+        <!-- Task List Output -->
+        <ul id="task-list" class="task-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
