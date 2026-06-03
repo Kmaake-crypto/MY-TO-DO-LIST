@@ -7,34 +7,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="app-container">
         <header>
             <h1>Workspace Tasks</h1>
             <p>Streamline your focus, eliminate the noise.</p>
         </header>
 
-    
-            >
-            <button type="submit" id="add-btn">Add Task</button>
+        <form id="task-form" class="task-form">
+            <div class="form-row">
+                <input 
+                    type="text" 
+                    id="task-input" 
+                    placeholder="What is your next focus area?..." 
+                    required 
+                    autocomplete="off"
+                >
+                <button type="submit" id="add-btn">Add Task</button>
+            </div>
+            <div class="date-row">
+                <label for="due-date-input" class="date-label">Due date (optional)</label>
+                <input type="date" id="due-date-input">
+            </div>
         </form>
 
-        <!-- Filter Control Tabs -->
         <div class="filter-tabs">
             <button type="button" class="filter-btn active" data-filter="all">All Tasks</button>
             <button type="button" class="filter-btn" data-filter="active">Active</button>
             <button type="button" class="filter-btn" data-filter="all-completed">Completed</button>
         </div>
 
-    
-
-
-
-    <div class="date-row">
-        <label for="due-date-input" class="date-label">Due date (optional)</label>
-        <input type="date" id="due-date-input">
+        <ul id="task-list" class="task-list"></ul>
     </div>
-</form>
+
     <script src="script.js"></script>
 </body>
 </html>
