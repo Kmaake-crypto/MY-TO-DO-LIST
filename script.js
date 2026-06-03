@@ -132,12 +132,22 @@ taskForm.addEventListener("submit", (e) => {
         id: Date.now().toString(),
         title: taskTitle,
         completed: false,
-        dueDate: dueDateInput.value || null  // new field
+        dueDate: dueDateInput.value || null  
     };
 
     tasks.push(newTask);
     saveToLocalStorage();
     renderTasks();
     taskInput.value = "";
-    dueDateInput.value = "";  // clear date too
+    dueDateInput.value = "";  
 });
+
+li.innerHTML = `
+    <div class="task-left-wrapper">
+        <input type="checkbox" class="task-checkbox" ${task.completed ? "checked" : ""}>
+        <div class="task-content">
+            <span class="task-text">${task.title}</span>
+            ${task.dueDate ? `<span class="due-date-label ${getDueDateClass(task.dueDate)}">${formatDueDate(task.dueDate)}</span>` : ""}
+        </div>
+    </div>
+    <button class="delete-btn" title="Delete Task">&times;</button>
