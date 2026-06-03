@@ -122,3 +122,22 @@ filterButtons.forEach(button => {
 renderTasks();
 
 const dueDateInput = document.getElementById("due-date-input");
+
+taskForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const taskTitle = taskInput.value.trim();
+    if (!taskTitle) return;
+
+    const newTask = {
+        id: Date.now().toString(),
+        title: taskTitle,
+        completed: false,
+        dueDate: dueDateInput.value || null  // new field
+    };
+
+    tasks.push(newTask);
+    saveToLocalStorage();
+    renderTasks();
+    taskInput.value = "";
+    dueDateInput.value = "";  // clear date too
+});
