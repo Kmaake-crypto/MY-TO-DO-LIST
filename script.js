@@ -151,3 +151,17 @@ li.innerHTML = `
         </div>
     </div>
     <button class="delete-btn" title="Delete Task">&times;</button>
+
+function getDueDateClass(dateStr) {
+    const today = new Date().toISOString().split("T")[0];
+    if (dateStr < today) return "overdue";
+    if (dateStr === today) return "today";
+    return "upcoming";
+}
+
+function formatDueDate(dateStr) {
+    const today = new Date().toISOString().split("T")[0];
+    if (dateStr === today) return "● Due today";
+    const date = new Date(dateStr + "T00:00:00");
+    const label = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return dateStr < today ? `⚠ Overdue · ${label}` : `Due ${label}`;
