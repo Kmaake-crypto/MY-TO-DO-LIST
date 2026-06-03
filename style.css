@@ -183,3 +183,10 @@ header p {
 .delete-btn:hover {
     color: var(--accent-red);
 }
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
