@@ -120,3 +120,5 @@ filterButtons.forEach(button => {
 
 // Initial run to build UI elements saved in memory on application boot
 renderTasks();
+
+const dueDateInput = document.getElementById("due-date-input");
