@@ -2,7 +2,7 @@
 
 A clean, minimal task manager built with vanilla HTML, CSS, and JavaScript. No frameworks, no dependencies — just a focused tool for managing your work.
 
-![Dark premium design with gold accents](https://via.placeholder.com/800x400/161820/d4af37?text=Workspace+Tasks)
+
 
 ## Features
 
