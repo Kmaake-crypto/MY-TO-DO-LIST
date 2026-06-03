@@ -190,3 +190,53 @@ header p {
     gap: 10px;
     margin-bottom: 25px;
 }
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.date-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.date-label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+#due-date-input {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 9px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+    flex: 1;
+    color-scheme: dark;
+}
+
+#due-date-input:focus {
+    border-color: var(--accent-gold);
+}
+
+.task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.due-date-label {
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.due-date-label.overdue { color: var(--accent-red); }
+.due-date-label.today   { color: var(--accent-gold); }
+.due-date-label.upcoming { color: var(--text-muted); }
