@@ -3,9 +3,9 @@ const taskForm = document.getElementById("task-form");
 const taskInput = document.getElementById("task-input");
 const taskList = document.getElementById("task-list");
 const filterButtons = document.querySelectorAll(".filter-btn");
+const dueDateInput = document.getElementById("due-date-input");
 
 // --- Data State ---
-// Retrieve existing array from localStorage, or initialize empty array if none exists
 let tasks = JSON.parse(localStorage.getItem("workspace-tasks")) || [];
 let currentFilter = "all";
 
@@ -14,19 +14,32 @@ function saveToLocalStorage() {
     localStorage.setItem("workspace-tasks", JSON.stringify(tasks));
 }
 
+// --- Helper Functions ---
+function getDueDateClass(dateStr) {
+    const today = new Date().toISOString().split("T")[0];
+    if (dateStr < today) return "overdue";
+    if (dateStr === today) return "today";
+    return "upcoming";
+}
+
+function formatDueDate(dateStr) {
+    const today = new Date().toISOString().split("T")[0];
+    if (dateStr === today) return "● Due today";
+    const date = new Date(dateStr + "T00:00:00");
+    const label = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    return dateStr < today ? `⚠ Overdue · ${label}` : `Due ${label}`;
+}
+
 // --- Core Functionality & Rendering ---
 function renderTasks() {
-    // Clear out the current UI list entirely before re-rendering
     taskList.innerHTML = "";
 
-    // Apply filtering logic to the array before looping
     const filteredTasks = tasks.filter(task => {
         if (currentFilter === "active") return !task.completed;
         if (currentFilter === "all-completed") return task.completed;
-        return true; // Default 'all' filter
+        return true;
     });
 
-    // Handle empty state display
     if (filteredTasks.length === 0) {
         const emptyMessage = document.createElement("p");
         emptyMessage.style.color = "var(--text-muted)";
@@ -37,7 +50,6 @@ function renderTasks() {
         return;
     }
 
-    // Build the DOM nodes dynamically for each matching item
     filteredTasks.forEach(task => {
         const li = document.createElement("li");
         li.className = `task-item ${task.completed ? "completed" : ""}`;
@@ -46,7 +58,10 @@ function renderTasks() {
         li.innerHTML = `
             <div class="task-left-wrapper">
                 <input type="checkbox" class="task-checkbox" ${task.completed ? "checked" : ""}>
-                <span class="task-text">${task.title}</span>
+                <div class="task-content">
+                    <span class="task-text">${task.title}</span>
+                    ${task.dueDate ? `<span class="due-date-label ${getDueDateClass(task.dueDate)}">${formatDueDate(task.dueDate)}</span>` : ""}
+                </div>
             </div>
             <button class="delete-btn" title="Delete Task">&times;</button>
         `;
@@ -56,37 +71,34 @@ function renderTasks() {
 }
 
 // --- Event Handlers ---
-
-// Handle Add Task Submission
 taskForm.addEventListener("submit", (e) => {
-    e.preventDefault(); // Halt default form tracking/reload
+    e.preventDefault();
 
     const taskTitle = taskInput.value.trim();
     if (!taskTitle) return;
 
-    // Create unique task object layout
     const newTask = {
-        id: Date.now().toString(), // Generates unique identifier string
+        id: Date.now().toString(),
         title: taskTitle,
-        completed: false
+        completed: false,
+        dueDate: dueDateInput.value || null
     };
 
     tasks.push(newTask);
     saveToLocalStorage();
     renderTasks();
-    
-    taskInput.value = ""; // Reset the input box element
+
+    taskInput.value = "";
+    dueDateInput.value = "";
 });
 
-// Event Delegation for handling clicks inside the task list (Toggle Complete / Delete)
 taskList.addEventListener("click", (e) => {
     const targetElement = e.target;
     const taskItem = targetElement.closest(".task-item");
     if (!taskItem) return;
-    
+
     const taskId = taskItem.getAttribute("data-id");
 
-    // Handle Toggle complete click wrapper boundary
     if (targetElement.classList.contains("task-checkbox") || targetElement.closest(".task-left-wrapper")) {
         tasks = tasks.map(task => {
             if (task.id === taskId) {
@@ -98,7 +110,6 @@ taskList.addEventListener("click", (e) => {
         renderTasks();
     }
 
-    // Handle Delete button click action targeting
     if (targetElement.classList.contains("delete-btn")) {
         tasks = tasks.filter(task => task.id !== taskId);
         saveToLocalStorage();
@@ -106,10 +117,8 @@ taskList.addEventListener("click", (e) => {
     }
 });
 
-// Handle Filter Tab switching actions
 filterButtons.forEach(button => {
     button.addEventListener("click", (e) => {
-        // Clear active class from all buttons, then add to clicked button
         filterButtons.forEach(btn => btn.classList.remove("active"));
         e.target.classList.add("active");
 
@@ -118,5 +127,4 @@ filterButtons.forEach(button => {
     });
 });
 
-// Initial run to build UI elements saved in memory on application boot
 renderTasks();
